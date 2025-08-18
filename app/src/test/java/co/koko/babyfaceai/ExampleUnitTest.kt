@@ -1,4 +1,4 @@
-package co.koko.app.babyfaceai
+package co.koko.babyfaceai
 
 import org.junit.Test
 

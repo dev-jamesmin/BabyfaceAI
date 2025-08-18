@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "co.koko.app.babyfaceai"
+    namespace = "co.koko.babyfaceai"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "co.koko.app.babyfaceai"
+        applicationId = "co.koko.babyfaceai"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
