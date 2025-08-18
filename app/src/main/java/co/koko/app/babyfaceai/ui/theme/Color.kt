@@ -1,4 +1,4 @@
-package co.sparkplus.app.babyfaceai.ui.theme
+package co.koko.app.babyfaceai.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

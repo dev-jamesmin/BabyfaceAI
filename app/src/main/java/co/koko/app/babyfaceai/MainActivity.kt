@@ -1,4 +1,4 @@
-package co.sparkplus.app.babyfaceai
+package co.koko.app.babyfaceai
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,14 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import co.sparkplus.app.babyfaceai.ui.theme.BabyfaceAITheme
+import co.koko.app.babyfaceai.ui.theme.BabyfaceaiTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BabyfaceAITheme {
+            BabyfaceaiTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         name = "Android",
@@ -41,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    BabyfaceAITheme {
+    BabyfaceaiTheme {
         Greeting("Android")
     }
 }

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BabyfaceAI"
+rootProject.name = "Babyfaceai"
 include(":app")
  

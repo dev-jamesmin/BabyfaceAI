@@ -1,4 +1,4 @@
-package co.sparkplus.app.babyfaceai
+package co.koko.app.babyfaceai
 
 import org.junit.Test
 

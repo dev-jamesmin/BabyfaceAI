@@ -1,4 +1,4 @@
-package co.sparkplus.app.babyfaceai.ui.theme
+package co.koko.app.babyfaceai.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun BabyfaceAITheme(
+fun BabyfaceaiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

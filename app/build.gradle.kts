@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "co.sparkplus.app.babyfaceai"
+    namespace = "co.koko.app.babyfaceai"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "co.sparkplus.app.babyfaceai"
+        applicationId = "co.koko.app.babyfaceai"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
