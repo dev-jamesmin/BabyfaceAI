@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import co.koko.babyfaceai.data.AgeClassifier // AgeClassifier 임포트
 import co.koko.babyfaceai.data.UserProfileRepository
 import co.koko.babyfaceai.data.dataStore
 import co.koko.babyfaceai.ui.MainViewModel
@@ -22,7 +23,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // 앱의 전체적인 테마를 적용합니다.
             BabyfaceAITheme {
                 AppNavigation()
             }
@@ -35,13 +35,14 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    // ViewModelFactory를 사용하여 ViewModel 인스턴스를 생성합니다.
-    // 이 ViewModel은 앱의 모든 화면에서 공유되어 사용자 데이터를 관리합니다.
+    // [수정] ViewModel을 생성할 때 AgeClassifier를 함께 전달합니다.
     val viewModel: MainViewModel = viewModel(
-        factory = MainViewModelFactory(UserProfileRepository(context.dataStore))
+        factory = MainViewModelFactory(
+            repository = UserProfileRepository(context.dataStore),
+            classifier = AgeClassifier(context) // <-- 이 부분을 추가하세요.
+        )
     )
 
-    // NavHost가 화면 전환을 관리합니다. 시작 화면은 "splash" 입니다.
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") {
             SplashScreen(navController = navController, viewModel = viewModel)

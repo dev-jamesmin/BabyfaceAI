@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import co.koko.babyfaceai.R // 참고: 이 아이콘 리소스를 res/drawable 폴더에 추가해야 합니다.
+import co.koko.babyfaceai.R
 import co.koko.babyfaceai.ui.MainViewModel
 
 @Composable
@@ -56,7 +56,6 @@ fun ProfileSetupScreen(navController: NavController, viewModel: MainViewModel) {
                     .background(Color.White.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
-                // TODO: res/drawable 폴더에 'ic_app_icon.xml' 같은 아이콘 파일을 추가해주세요.
                 Image(
                     painter = painterResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = "App Icon",
@@ -81,10 +80,10 @@ fun ProfileSetupScreen(navController: NavController, viewModel: MainViewModel) {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     // 닉네임 입력 필드
-                    Text("닉네임 입력", fontSize = 14.sp, color = Color.Gray)
                     OutlinedTextField(
                         value = nickname,
                         onValueChange = { nickname = it },
+                        label = { Text("닉네임 입력") },
                         placeholder = { Text("닉네임을 입력해주세요") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
@@ -98,10 +97,10 @@ fun ProfileSetupScreen(navController: NavController, viewModel: MainViewModel) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // 실제 나이 입력 필드
-                    Text("실제 나이 입력", fontSize = 14.sp, color = Color.Gray)
                     OutlinedTextField(
                         value = age,
                         onValueChange = { if (it.all { char -> char.isDigit() }) age = it },
+                        label = { Text("실제 나이 입력") },
                         placeholder = { Text("나이를 입력해주세요") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
@@ -121,9 +120,14 @@ fun ProfileSetupScreen(navController: NavController, viewModel: MainViewModel) {
                     Button(
                         onClick = {
                             viewModel.saveProfile(nickname, age)
+                            // [수정] 화면 이동 로직을 수정합니다.
                             navController.navigate("main") {
-                                // 이전 화면 스택을 모두 제거하고 메인 화면으로 이동합니다.
-                                popUpTo("splash") { inclusive = true }
+                                // popUpTo: 현재 화면인 "profile_setup"을 스택에서 제거합니다.
+                                popUpTo("profile_setup") {
+                                    inclusive = true
+                                }
+                                // launchSingleTop: 메인 화면이 여러 개 쌓이는 것을 방지합니다.
+                                launchSingleTop = true
                             }
                         },
                         enabled = isButtonEnabled,

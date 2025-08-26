@@ -8,14 +8,29 @@ android {
     namespace = "co.koko.babyfaceai"
     compileSdk = 36
 
+    aaptOptions {
+        noCompress.add(".so")
+    }
+
     defaultConfig {
         applicationId = "co.koko.babyfaceai"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("x86")
+            abiFilters.add("x86_64")
+        }
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -65,4 +80,15 @@ dependencies {
 
     // 3. DataStore(데이터 저장)를 위해 필요합니다.
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.8")
+
+    // TensorFlow Lite 핵심 라이브러리
+    implementation("org.tensorflow:tensorflow-lite:2.15.0")
+
+    // 이미지 전처리, 카메라 연동 등을 도와주는 Support Library
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+
+    // (선택사항) GPU 가속을 사용하고 싶을 때 추가
+    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.4")
 }
