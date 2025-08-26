@@ -56,4 +56,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // 1. 화면 전환(Navigation)을 위해 필요합니다.
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // 2. ViewModel을 Compose에서 사용하기 위해 필요합니다.
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+
+    // 3. DataStore(데이터 저장)를 위해 필요합니다.
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }
