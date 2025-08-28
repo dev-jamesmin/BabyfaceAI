@@ -1,6 +1,8 @@
 package co.koko.babyfaceai.ui.settings
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,7 +31,6 @@ import co.koko.babyfaceai.ui.MainViewModel
 @Composable
 fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
     val userProfile by viewModel.userProfile.collectAsState(initial = UserProfile(null, null))
-    var notificationEnabled by remember { mutableStateOf(true) }
     val context = LocalContext.current
 
     Scaffold(
@@ -93,13 +94,11 @@ fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
                 colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
                 Column {
-                    SettingsMenuItem(icon = Icons.Default.Edit, text = "닉네임 수정", onClick = { /* TODO */ })
-                    SettingsMenuItem(icon = Icons.Default.CalendarToday, text = "실제 나이 수정", onClick = { /* TODO */ })
-                    SettingsMenuSwitchItem(
-                        icon = Icons.Default.Notifications,
-                        text = "알림 설정",
-                        checked = notificationEnabled,
-                        onCheckedChange = { notificationEnabled = it }
+                    // [수정] '프로필 수정' 버튼 클릭 시 "edit_profile" 화면으로 이동하도록 연결
+                    SettingsMenuItem(
+                        icon = Icons.Default.Edit,
+                        text = "프로필 수정",
+                        onClick = { navController.navigate("edit_profile") }
                     )
                     SettingsMenuItem(icon = Icons.Default.Share, text = "앱 공유하기", onClick = {
                         val sendIntent = Intent().apply {
@@ -110,9 +109,26 @@ fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
                         val shareIntent = Intent.createChooser(sendIntent, null)
                         context.startActivity(shareIntent)
                     })
-                    SettingsMenuItem(icon = Icons.Default.Star, text = "리뷰 작성하기", onClick = { /* TODO: 스토어로 이동 */ })
-                    SettingsMenuItem(icon = Icons.Default.Group, text = "패밀리 앱 보기", onClick = { /* TODO */ })
-                    SettingsMenuItem(icon = Icons.Default.Description, text = "이용약관 보기", onClick = { /* TODO */ }, hasDivider = false)
+                    SettingsMenuItem(icon = Icons.Default.Star, text = "리뷰 작성하기", onClick = {
+                        val packageName = context.packageName
+                        try {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+                            context.startActivity(intent)
+                        } catch (e: ActivityNotFoundException) {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
+                            context.startActivity(intent)
+                        }
+                    })
+                    SettingsMenuItem(icon = Icons.Default.Group, text = "패밀리 앱 보기", onClick = {
+                        val url = "https://play.google.com/store/apps/developer?id=KOKO+COMPANY"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                    })
+                    SettingsMenuItem(icon = Icons.Default.Description, text = "이용약관 보기", onClick = {
+                        val url = "https://www.notion.so/AI-24d931b917cf80bca715dfd6f2f6a142?source=copy_link"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
+                    }, hasDivider = false)
                 }
             }
 
@@ -147,29 +163,5 @@ private fun SettingsMenuItem(icon: ImageVector, text: String, onClick: () -> Uni
     }
     if (hasDivider) {
         HorizontalDivider(modifier = Modifier.padding(start = 56.dp), color = Color(0xFFF0F2F5))
-    }
-}
-
-@Composable
-private fun SettingsMenuSwitchItem(icon: ImageVector, text: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onCheckedChange(!checked) }
-            .padding(horizontal = 20.dp, vertical = 12.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, contentDescription = text, tint = Color.Gray)
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(text, modifier = Modifier.weight(1f))
-            Switch(
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = Color(0xFF7A69E4)
-                )
-            )
-        }
     }
 }
