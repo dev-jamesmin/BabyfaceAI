@@ -16,6 +16,7 @@ import co.koko.babyfaceai.ui.MainViewModel
 import co.koko.babyfaceai.ui.MainViewModelFactory
 import co.koko.babyfaceai.ui.main.MainScreen
 import co.koko.babyfaceai.ui.profile.ProfileSetupScreen
+import co.koko.babyfaceai.ui.settings.SettingsScreen
 import co.koko.babyfaceai.ui.splash.SplashScreen
 import co.koko.babyfaceai.ui.theme.BabyfaceAITheme
 
@@ -51,7 +52,12 @@ fun AppNavigation() {
             ProfileSetupScreen(navController = navController, viewModel = viewModel)
         }
         composable("main") {
-            MainScreen(viewModel = viewModel)
+            // [수정] MainScreen이 설정 화면으로 이동할 수 있도록 navController를 전달합니다.
+            MainScreen(navController = navController, viewModel = viewModel)
+        }
+        // [추가] "settings"라는 경로와 SettingsScreen을 연결합니다.
+        composable("settings") {
+            SettingsScreen(navController = navController, viewModel = viewModel)
         }
     }
 }

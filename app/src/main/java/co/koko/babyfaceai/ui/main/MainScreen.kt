@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import co.koko.babyfaceai.data.ClassificationResult
 import co.koko.babyfaceai.data.UserProfile
 import co.koko.babyfaceai.ui.MainViewModel
@@ -36,7 +37,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(navController: NavController, viewModel: MainViewModel) {
     val userProfile by viewModel.userProfile.collectAsState(initial = UserProfile(null, null))
     val classificationResult by viewModel.classificationResult.collectAsState()
     val context = LocalContext.current
@@ -76,7 +77,8 @@ fun MainScreen(viewModel: MainViewModel) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* TODO: 설정 화면으로 이동 */ }) {
+                    // [수정] 설정 버튼 클릭 시 "settings" 화면으로 이동하도록 연결되었습니다.
+                    IconButton(onClick = { navController.navigate("settings") }) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings", tint = Color.White)
                     }
                 },

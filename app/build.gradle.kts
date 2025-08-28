@@ -8,10 +8,6 @@ android {
     namespace = "co.koko.babyfaceai"
     compileSdk = 36
 
-    aaptOptions {
-        noCompress.add(".so")
-    }
-
     defaultConfig {
         applicationId = "co.koko.babyfaceai"
         minSdk = 26
@@ -20,13 +16,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        ndk {
-            abiFilters.add("armeabi-v7a")
-            abiFilters.add("arm64-v8a")
-            abiFilters.add("x86")
-            abiFilters.add("x86_64")
-        }
 
         vectorDrawables {
             useSupportLibrary = true
