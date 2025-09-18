@@ -1,8 +1,11 @@
 package co.koko.babyfaceai.ui.settings
 
+import android.R.attr.versionName
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,12 +29,27 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import co.koko.babyfaceai.data.UserProfile
 import co.koko.babyfaceai.ui.MainViewModel
+import co.koko.babyfaceai.util.AdManagerCompose
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
     val userProfile by viewModel.userProfile.collectAsState(initial = UserProfile(null, null))
     val context = LocalContext.current
+
+    // ---▼ [추가] 실제 앱 버전을 가져오는 로직 ▼---
+    val versionName = try {
+        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0))
+        } else {
+            @Suppress("DEPRECATION")
+            context.packageManager.getPackageInfo(context.packageName, 0)
+        }
+        packageInfo.versionName
+    } catch (e: Exception) {
+        "N/A"
+    }
+    // ---▲ [추가] ▲---
 
     Scaffold(
         topBar = {
@@ -48,7 +66,11 @@ fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
                     navigationIconContentColor = Color.White
                 )
             )
-        }
+        },
+        // ---▼ [핵심 수정] ▼---
+        // contentWindowInsets를 사용하여 Scaffold가 시스템 UI 영역을 어떻게 처리할지 명시합니다.
+        // 우리는 bottomBar와 content에서 직접 인셋을 처리할 것이므로, 기본 인셋을 비웁니다.
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -139,9 +161,19 @@ fun SettingsScreen(navController: NavController, viewModel: MainViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("AI동안측정기 v2.0.0", color = Color.Gray, fontSize = 12.sp)
-                Text("AI가 알려주는 내 나이", color = Color.Gray, fontSize = 12.sp)
+                Text("AI동안측정기 v$versionName", color = Color.Gray, fontSize = 12.sp)
+                Spacer(modifier = Modifier.height(16.dp))
             }
+
+            // 배너 광고
+            AdManagerCompose.BannerAdView(modifier = Modifier.fillMaxWidth())
+
+            // ---▼ [핵심 수정] ▼---
+            // 시스템 내비게이션 바(소프트 키, 제스처 바)를 위한 공간을 확보합니다.
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding())
+            // ---▲ [핵심 수정] ▲---
         }
     }
 }

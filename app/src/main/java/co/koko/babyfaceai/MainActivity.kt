@@ -20,10 +20,12 @@ import co.koko.babyfaceai.ui.profile.ProfileSetupScreen
 import co.koko.babyfaceai.ui.settings.SettingsScreen
 import co.koko.babyfaceai.ui.splash.SplashScreen
 import co.koko.babyfaceai.ui.theme.BabyfaceAITheme
+import co.koko.babyfaceai.util.AdManagerCompose
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AdManagerCompose.loadAdsOnAppStart(this)
         setContent {
             BabyfaceAITheme {
                 AppNavigation()

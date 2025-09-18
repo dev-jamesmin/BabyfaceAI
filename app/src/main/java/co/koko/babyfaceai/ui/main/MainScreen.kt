@@ -33,6 +33,7 @@ import androidx.navigation.NavController
 import co.koko.babyfaceai.data.ClassificationResult
 import co.koko.babyfaceai.data.UserProfile
 import co.koko.babyfaceai.ui.MainViewModel
+import co.koko.babyfaceai.util.AdManagerCompose
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,6 +86,21 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         },
+        // ---▼ [핵심 수정] ▼---
+        bottomBar = {
+            // [수정] 배너 광고가 시스템 내비게이션 바 영역을 침범하지 않도록 패딩을 추가합니다.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.tertiary) // 배경색을 지정하여 빈 공간이 없도록 함
+                    .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
+            ) {
+                AdManagerCompose.BannerAdView(
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        // ---▲ [핵심 수정] ▲---
         containerColor = Color.Transparent
     ) { innerPadding ->
         Box(
@@ -143,6 +159,15 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
                 modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 24.dp)
             )
         }
+
+        // ---▼ [배너 광고 추가] ▼---
+//        AdManagerCompose.BannerAdView(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .wrapContentHeight() // 높이는 배너 사이즈에 맞게 자동 조절
+//        )
+        // ---▲ [배너 광고 추가] ▲---
+
     }
 
     if (classificationResult.isNotEmpty()) {
