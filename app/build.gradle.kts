@@ -80,4 +80,9 @@ dependencies {
 
     // (선택사항) GPU 가속을 사용하고 싶을 때 추가
     implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.4")
+
+    implementation("com.unity3d.ads-mediation:mediation-sdk:8.10.0")
+    // Add Unity Ads Network
+    implementation("com.unity3d.ads-mediation:unityads-adapter:4.3.57")
+    implementation("com.unity3d.ads:unity-ads:4.15.1")
 }
