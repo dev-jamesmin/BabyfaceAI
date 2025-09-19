@@ -52,26 +52,26 @@ fun SplashScreen(navController: NavController, viewModel: MainViewModel) {
             "main"
         }
 
-        navController.navigate(destination) {
-            popUpTo("splash") { inclusive = true }
-        }
+//        navController.navigate(destination) {
+//            popUpTo("splash") { inclusive = true }
+//        }
 
         // 5. 광고 초기화를 기다린 후, 전면 광고를 표시합니다.
-//        AdManagerCompose.runAfterInit {
-//            // activity가 null이 아닐 때만 광고를 호출합니다.
-//            activity?.let {
-//                AdManagerCompose.showInterstitial(it) {
-//                    navController.navigate(destination) {
-//                        popUpTo("splash") { inclusive = true }
-//                    }
-//                }
-//            } ?: run {
-//                // Activity를 찾지 못한 경우 (예: 프리뷰), 광고 없이 바로 화면 전환
-//                navController.navigate(destination) {
-//                    popUpTo("splash") { inclusive = true }
-//                }
-//            }
-//        }
+        AdManagerCompose.runAfterInit {
+            // activity가 null이 아닐 때만 광고를 호출합니다.
+            activity?.let {
+                AdManagerCompose.showInterstitial(it) {
+                    navController.navigate(destination) {
+                        popUpTo("splash") { inclusive = true }
+                    }
+                }
+            } ?: run {
+                // Activity를 찾지 못한 경우 (예: 프리뷰), 광고 없이 바로 화면 전환
+                navController.navigate(destination) {
+                    popUpTo("splash") { inclusive = true }
+                }
+            }
+        }
     }
 
     // 스플래시 화면의 UI (수정 없음)
